@@ -1,0 +1,90 @@
+// client/src/pages/HomePage.scss
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1rem;
+  // Animação de fade-in para a página
+  animation: fadeIn 0.8s ease-out;
+}
+
+.home-content {
+  max-width: 600px;
+}
+
+.home-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #f1f1f1;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 2.2rem;
+  }
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  color: #b0b0b0;
+  margin-bottom: 2.5rem;
+}
+
+.home-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+.home-button {
+  text-decoration: none;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 5px;
+  transition: all 0.2s ease-in-out;
+
+  // Botão Primário (Vermelho)
+  &.primary {
+    background-color: #d90429;
+    color: white;
+
+    &:hover {
+      background-color: #b3001e;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(217, 4, 41, 0.3);
+    }
+  }
+
+  // Botão Secundário (Transparente com borda)
+  &.secondary {
+    background-color: transparent;
+    color: #f1f1f1;
+    border: 2px solid #555;
+
+    &:hover {
+      background-color: #f1f1f1;
+      color: #121212;
+      border-color: #f1f1f1;
+    }
+  }
+}
+
+// Re-usa a animação do PhotoCard.scss, mas definida aqui localmente
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
