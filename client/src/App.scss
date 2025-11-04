@@ -1,0 +1,111 @@
+/* client/src/App.scss */
+
+/* Estilo global da fonte e Gradiente */
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0 1rem;
+  background-color: #121212; 
+  background-image: linear-gradient(180deg, #121212 0%, #3a0e0e 150%);
+  color: #f1f1f1; 
+  min-height: 100vh;
+  
+  // NOVO: Centraliza o conteúdo da página horizontalmente
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centraliza itens filhos (header, form, grid)
+  
+  @media (max-width: 768px) {
+    padding: 0 0.5rem; 
+  }
+}
+
+// NOVO ESTILO PARA O CABEÇALHO E ÍCONE
+.app-header {
+  display: flex; // Para o ícone e o h1 ficarem lado a lado
+  align-items: center; // Alinha verticalmente
+  justify-content: center; // Centraliza horizontalmente
+  gap: 1rem; // Espaçamento entre o ícone e o texto
+  margin: 2.5rem 0 1.5rem 0; 
+  width: 100%; // Ocupa a largura total
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Empilha o ícone e o texto no celular
+    gap: 0.5rem;
+    margin: 1.5rem 0 1rem 0;
+  }
+}
+
+.camera-icon {
+  width: 50px; // Tamanho do ícone
+  height: 50px;
+  color: #d90429; // Cor do seu vermelho de destaque
+  flex-shrink: 0; // Impede que o ícone encolha
+
+  @media (max-width: 768px) {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+// Estilo para o Título Principal (apenas ajustando a margem)
+h1 {
+  text-align: center; 
+  font-weight: 700; 
+  font-size: 2.5rem; 
+  margin: 0; // Removido para o header controlar
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+}
+
+// Linha (hr)
+hr {
+  border: 0;
+  border-top: 1px solid #444; 
+  margin: 2rem 0;
+  width: 100%; // Garantir que ocupe a largura total
+  max-width: 800px; // Limitar o tamanho máximo da linha
+}
+
+/* Estilo da grade de fotos */
+.photo-grid {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: center; 
+  padding: 1rem 0;
+  width: 100%; // Ocupa a largura total para centralização
+  max-width: 800px; // Limitar o tamanho máximo da grade
+}
+
+/* Estilo para a mensagem de galeria vazia */
+.empty-gallery {
+  width: 100%;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #888; 
+
+  h2 {
+    margin: 0 0 0.5rem 0;
+    font-weight: 500;
+    color: #ccc;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+/* Estilo para a tela de carregamento */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; 
+  color: #ccc;
+  font-size: 1.2rem;
+  font-weight: 500;
+}

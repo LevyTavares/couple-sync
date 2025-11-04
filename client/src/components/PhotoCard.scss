@@ -1,0 +1,109 @@
+// client/src/components/PhotoCard.scss
+
+// NOVA Animação "Fade-in"
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.photo-card {
+  // Fundo do card (combinando com o form)
+  background-color: #1e1e1e; 
+  border-radius: 8px;
+  overflow: hidden; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  width: 300px;
+  margin: 1rem;
+  position: relative;
+  transition: width 0.3s ease;
+  
+  // APLICANDO A ANIMAÇÃO
+  animation: fadeIn 0.5s ease-out;
+
+  @media (max-width: 768px) {
+    width: 100%; 
+    margin: 0.75rem 0; 
+  }
+
+  .action-button {
+    position: absolute;
+    top: 8px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s, background-color 0.2s;
+    
+    &:hover {
+      opacity: 1;
+    }
+
+    // Cores dos botões atualizadas
+    &.delete, &.cancel {
+      right: 8px;
+      &:hover { background-color: #d90429; } // Vermelho (igual ao botão principal)
+    }
+    
+    &.edit {
+      right: 46px; 
+      font-size: 16px; 
+      &:hover { background-color: #555; } // Cinza escuro (neutro)
+    }
+
+    &.save {
+      right: 46px;
+      font-size: 16px;
+      &:hover { background-color: #28a745; } // Verde para "Salvar" ainda é uma boa ideia
+    }
+  }
+
+  .photo-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    background-color: #444;
+  }
+
+  .photo-card-info {
+    padding: 1rem;
+
+    .photo-card-description {
+      font-size: 1rem;
+      font-weight: bold;
+      margin: 0 0 0.5rem 0;
+      color: #f1f1f1;
+    }
+
+    .photo-card-date {
+      font-size: 0.8rem;
+      color: #b0b0b0;
+    }
+    
+    .edit-input {
+      width: 100%;
+      display: block;
+      background-color: #444;
+      border: 1px solid #666;
+      color: white;
+      border-radius: 4px;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+      box-sizing: border-box;
+    }
+  }
+}
