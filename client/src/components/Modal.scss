@@ -1,0 +1,83 @@
+// client/src/components/Modal.scss
+
+.modal-backdrop {
+  position: fixed; // Fica fixo na tela
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75); // Fundo escuro semi-transparente
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; // Garante que fica por cima de tudo
+  animation: fadeIn 0.3s ease; // Usa a mesma animação de fade
+}
+
+.modal-content {
+  background-color: #1e1e1e; // O mesmo fundo dos nossos cards
+  border-radius: 8px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+  width: 90%;
+  max-width: 500px; // O mesmo max-width do nosso formulário
+  animation: slideIn 0.3s ease-out;
+
+  @media (max-width: 768px) {
+    width: 95%; // Um pouco mais largo no telemóvel
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.modal-close-button {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 2.5rem;
+  font-weight: 300;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  
+  &:hover {
+    color: white;
+  }
+}
+
+.modal-body {
+  padding: 1.5rem;
+  
+  // Isto é um truque para fazer o nosso UploadForm (que vai aqui)
+  // parecer que faz parte do modal, removendo o seu fundo/padding próprio.
+  .upload-form-container {
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    max-width: none;
+  }
+}
+
+
+// Animações
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
