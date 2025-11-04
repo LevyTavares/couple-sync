@@ -7,6 +7,9 @@ import { toast } from 'react-toastify'; // Importa o toast
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
+// 👇 ADICIONÁMOS ESTA LINHA PARA DEPURAR (DEBUG) 👇
+console.log("A URL DA API LIDA PELO VITE É:", API_URL);
+
 function GalleryPage() {
   const [fotos, setFotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,24 +21,23 @@ function GalleryPage() {
         if (!API_URL) {
           throw new Error("VITE_API_BASE_URL não foi definida. Verifique o .env.local e reinicie o servidor.");
         }
-
+        
         const response = await fetch(`${API_URL}/fotos`);
-
+        
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
-
+        
         const data = await response.json();
         setFotos(data);
-
+        
       } catch (error) {
         console.error('Erro ao buscar fotos:', error);
         // Mostra o erro para o utilizador
         toast.error(`Erro ao carregar fotos: ${error.message}`);
-
+        
       } finally {
-        // 👇 ESTE É O PASSO CRUCIAL 👇
-        // Isto corre sempre (com sucesso ou com erro)
+        // Este é o passo crucial que pára o "Carregando..."
         setIsLoading(false);
       }
     }
@@ -58,7 +60,7 @@ function GalleryPage() {
       if (!response.ok) {
         throw new Error(`Erro HTTP: ${response.status}`);
       }
-
+      
       setFotos(currentFotos => currentFotos.filter(foto => foto.id !== id));
       toast.success('Foto apagada com sucesso!');
 
