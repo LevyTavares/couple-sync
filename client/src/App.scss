@@ -21,44 +21,15 @@ body {
   }
 }
 
-// Estilo para o Cabeçalho e Ícone
-.app-header {
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 1rem; 
-  margin: 2.5rem 0 1.5rem 0; 
-  width: 100%; 
+/* Os estilos .app-header, .camera-icon, e h1 foram MOVIMDOS para Navbar.scss */
 
-  @media (max-width: 768px) {
-    flex-direction: column; 
-    gap: 0.5rem;
-    margin: 1.5rem 0 1rem 0;
-  }
-}
 
-.camera-icon {
-  width: 50px; 
-  height: 50px;
-  color: #d90429; 
-  flex-shrink: 0; 
-
-  @media (max-width: 768px) {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-// Estilo para o Título Principal
-h1 {
-  text-align: center; 
-  font-weight: 700; 
-  font-size: 2.5rem; 
-  margin: 0; 
-  
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
+/* NOVO: Estilo para o <main> que segura as páginas */
+main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Centraliza o conteúdo das páginas (como a HomePage)
 }
 
 // Linha (hr)
@@ -104,15 +75,15 @@ hr {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; 
+  min-height: 100vh; // Este min-height aplica-se à tela de carregamento da galeria
   color: #ccc;
   font-size: 1.2rem;
   font-weight: 500;
 }
 
-/* NOVO: Estilo para o Botão Flutuante (FAB) de Adicionar */
+/* Estilo para o Botão Flutuante (FAB) de Adicionar */
 .fab-add-button {
-  position: fixed; // Fica fixo na tela
+  position: fixed; 
   bottom: 2rem;
   right: 2rem;
   
@@ -121,22 +92,22 @@ hr {
   border-radius: 50%;
   border: none;
   
-  background-color: #d90429; // A sua cor vermelha principal
+  background-color: #d90429; 
   color: white;
   
   font-size: 2.5rem;
   font-weight: 300;
-  line-height: 60px; // Centraliza o "+" verticalmente
+  line-height: 60px; 
   text-align: center;
   
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  z-index: 900; // Fica acima da galeria, mas abaixo do modal
+  z-index: 900; 
   
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    transform: scale(1.05) translateY(-2px); // Efeito "lift"
+    transform: scale(1.05) translateY(-2px); 
     box-shadow: 0 6px 16px rgba(217, 4, 41, 0.3);
   }
 
