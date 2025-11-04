@@ -1,9 +1,10 @@
 // client/src/pages/GalleryPage.jsx
 
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. IMPORTAR O useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import PhotoCard from '../components/PhotoCard';
 import UploadForm from '../components/UploadForm';
+import Modal from '../components/Modal'; // 1. IMPORTA O NOVO MODAL
 import { toast } from 'react-toastify'; 
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
@@ -11,21 +12,22 @@ const API_URL = import.meta.env.VITE_API_BASE_URL;
 function GalleryPage() {
   const [fotos, setFotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const navigate = useNavigate(); // 2. INICIAR O hook
+  
+  // 2. NOVO ESTADO para controlar o Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     async function getFotos() {
       try {
-        // 3. LER O TOKEN DO LOCALSTORAGE
         const token = localStorage.getItem('authToken');
-
         if (!token) {
           toast.error('Acesso negado. Por favor, faça login.');
-          navigate('/login'); // Redireciona se não houver token
+          navigate('/login'); 
           return;
         }
         
-        // 4. ADICIONAR O TOKEN AO CABEÇALHO (HEADER)
         const response = await fetch(`${API_URL}/fotos`, {
           method: 'GET',
           headers: {
@@ -34,20 +36,15 @@ function GalleryPage() {
         });
         
         if (response.status === 401) {
-          // Se o token for inválido ou expirado
-          toast.error('Sessão inválida. Por favor, faça login novamente.');
-          localStorage.removeItem('authToken'); // Limpa o token inválido
+          toast.error('Sessão inválida. Faça login novamente.');
+          localStorage.removeItem('authToken'); 
           navigate('/login');
           return;
         }
-
-        if (!response.ok) {
-          throw new Error(`Erro HTTP: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
         
         const data = await response.json();
         setFotos(data);
-        
       } catch (error) {
         console.error('Erro ao buscar fotos:', error);
         toast.error(error.message || 'Erro ao carregar fotos.');
@@ -55,19 +52,18 @@ function GalleryPage() {
         setIsLoading(false);
       }
     }
-
     getFotos();
-  }, [navigate]); // Adiciona 'navigate' às dependências do useEffect
+  }, [navigate]); 
 
-  // Função para ADICIONAR uma foto (do UploadForm)
+  // 3. ATUALIZA handleNewFoto para fechar o modal
   const handleNewFoto = (novaFoto) => {
     setFotos(currentFotos => [novaFoto, ...currentFotos]);
+    setIsModalOpen(false); // Fecha o modal após o sucesso!
   };
 
-  // Função para DELETAR uma foto
+  // Função para DELETAR uma foto (com lógica de fetch completa)
   const handleDeleteFoto = async (id) => {
     try {
-      // 5. ADICIONAR O TOKEN AQUI TAMBÉM
       const token = localStorage.getItem('authToken');
       if (!token) {
         toast.error('Acesso negado. Faça login.');
@@ -95,10 +91,9 @@ function GalleryPage() {
     }
   };
 
-  // Função para ATUALIZAR uma foto
+  // Função para ATUALIZAR uma foto (com lógica de fetch completa)
   const handleUpdateFoto = async (id, novosDados) => {
     try {
-      // 6. ADICIONAR O TOKEN AQUI TAMBÉM
       const token = localStorage.getItem('authToken');
       if (!token) {
         toast.error('Acesso negado. Faça login.');
@@ -110,7 +105,7 @@ function GalleryPage() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Adiciona o token aqui
+          'Authorization': `Bearer ${token}` 
         },
         body: JSON.stringify(novosDados),
       });
@@ -133,7 +128,7 @@ function GalleryPage() {
     }
   };
 
-  // Tela de Carregamento
+  // Tela de Carregamento (continua igual)
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -142,12 +137,10 @@ function GalleryPage() {
     );
   }
 
-  // JSX da Galeria
+  // JSX da Galeria (AGORA MAIS LIMPO)
   return (
     <>
-      <UploadForm onUploadSuccess={handleNewFoto} />
-
-      <hr />
+      {/* O UploadForm e a <hr> foram removidos daqui */}
 
       <div className="photo-grid">
         {fotos.length > 0 ? (
@@ -166,6 +159,24 @@ function GalleryPage() {
           </div>
         )}
       </div>
+
+      {/* NOVO BOTÃO FLUTUANTE "+" */}
+      <button 
+        className="fab-add-button" 
+        onClick={() => setIsModalOpen(true)}
+      >
+        +
+      </button>
+
+      {/* O MODAL (invisível até 'isModalOpen' ser true) */}
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)}
+        title="Adicionar Nova Foto"
+      >
+        {/* O UploadForm agora vive aqui dentro! */}
+        <UploadForm onUploadSuccess={handleNewFoto} />
+      </Modal>
     </>
   );
 }
