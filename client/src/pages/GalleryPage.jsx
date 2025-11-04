@@ -3,29 +3,39 @@
 import { useState, useEffect } from 'react';
 import PhotoCard from '../components/PhotoCard';
 import UploadForm from '../components/UploadForm';
-
-// NOTA: Os estilos do App.scss (como .photo-grid) ainda funcionam
-// porque o App.scss é importado no App.jsx (nosso "pai").
+import { toast } from 'react-toastify'; // Importa o toast
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 function GalleryPage() {
-  // Toda a lógica que estava no App.jsx agora mora aqui
   const [fotos, setFotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function getFotos() {
       try {
+        // Garante que a API_URL foi lida
+        if (!API_URL) {
+          throw new Error("VITE_API_BASE_URL não foi definida. Verifique o .env.local e reinicie o servidor.");
+        }
+
         const response = await fetch(`${API_URL}/fotos`);
+
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
+
         const data = await response.json();
         setFotos(data);
+
       } catch (error) {
         console.error('Erro ao buscar fotos:', error);
+        // Mostra o erro para o utilizador
+        toast.error(`Erro ao carregar fotos: ${error.message}`);
+
       } finally {
+        // 👇 ESTE É O PASSO CRUCIAL 👇
+        // Isto corre sempre (com sucesso ou com erro)
         setIsLoading(false);
       }
     }
@@ -33,42 +43,61 @@ function GalleryPage() {
     getFotos();
   }, []); 
 
-  // Funções de CRUD (exatamente como antes)
+  // Funções de CRUD (com a lógica de fetch completa)
   const handleNewFoto = (novaFoto) => {
     setFotos(currentFotos => [novaFoto, ...currentFotos]);
   };
 
   const handleDeleteFoto = async (id) => {
-    // (A lógica de delete com fetch e toast.success/toast.error vai aqui)
-    // Por enquanto, vamos apenas remover do estado:
     try {
-      // TODO: Adicionar a lógica real de fetch DELETE
+      const response = await fetch(`${API_URL}/fotos/${id}`, {
+        method: 'DELETE',
+        // TODO: Adicionar o 'Authorization' header aqui quando tivermos login
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
       setFotos(currentFotos => currentFotos.filter(foto => foto.id !== id));
-      // toast.success('Foto apagada!'); // Você precisará importar o 'toast' se quiser usá-lo aqui
+      toast.success('Foto apagada com sucesso!');
+
     } catch (error) {
-       // toast.error('Erro ao apagar foto.');
-       console.error(error);
+      console.error('Erro ao apagar foto:', error);
+      toast.error('Ups, algo correu mal ao apagar a foto.');
     }
   };
 
   const handleUpdateFoto = async (id, novosDados) => {
-    // (A lógica de update com fetch e toast.success/toast.error vai aqui)
-    // Por enquanto, vamos apenas atualizar o estado:
     try {
-      // TODO: Adicionar a lógica real de fetch PUT
-       setFotos(currentFotos => 
-         currentFotos.map(foto => 
-           foto.id === id ? { ...foto, ...novosDados } : foto
-         )
-       );
-      // toast.success('Foto atualizada!');
+      const response = await fetch(`${API_URL}/fotos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // TODO: Adicionar o 'Authorization' header aqui
+        },
+        body: JSON.stringify(novosDados),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
+      const fotoAtualizada = await response.json();
+      setFotos(currentFotos => 
+        currentFotos.map(foto => 
+          foto.id === id ? fotoAtualizada : foto
+        )
+      );
+      toast.success('Descrição atualizada!');
+
     } catch (error) {
-      // toast.error('Erro ao atualizar foto.');
-      console.error(error);
+      console.error('Erro ao atualizar foto:', error);
+      toast.error('Ups, algo correu mal ao atualizar a foto.');
     }
   };
 
-  // Tela de Carregamento (específica desta página)
+  // Tela de Carregamento
   if (isLoading) {
     return (
       <div className="loading-container">
@@ -77,7 +106,7 @@ function GalleryPage() {
     );
   }
 
-  // O JSX que estava no App.jsx (UploadForm, hr, photo-grid)
+  // JSX da Galeria
   return (
     <>
       <UploadForm onUploadSuccess={handleNewFoto} />
