@@ -1,47 +1,49 @@
 /* client/src/App.scss */
 
-/* Estilo global da fonte e Gradiente */
+/* Estilo global da fonte e Gradiente Atualizado */
 body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 0 1rem;
-  background-color: #121212; 
-  background-image: linear-gradient(180deg, #121212 0%, #3a0e0e 150%);
+  
+  background-color: #121212; // Cor sólida de fallback
+  // GRADIENTE ATUALIZADO (com o vermelho mais visível)
+  background-image: linear-gradient(180deg, #121212 40%, #3a0e0e 100%); 
   color: #f1f1f1; 
   min-height: 100vh;
   
-  // NOVO: Centraliza o conteúdo da página horizontalmente
+  // Centraliza o conteúdo da página horizontalmente
   display: flex;
   flex-direction: column;
-  align-items: center; // Centraliza itens filhos (header, form, grid)
+  align-items: center; 
   
   @media (max-width: 768px) {
     padding: 0 0.5rem; 
   }
 }
 
-// NOVO ESTILO PARA O CABEÇALHO E ÍCONE
+// Estilo para o Cabeçalho e Ícone
 .app-header {
-  display: flex; // Para o ícone e o h1 ficarem lado a lado
-  align-items: center; // Alinha verticalmente
-  justify-content: center; // Centraliza horizontalmente
-  gap: 1rem; // Espaçamento entre o ícone e o texto
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 1rem; 
   margin: 2.5rem 0 1.5rem 0; 
-  width: 100%; // Ocupa a largura total
+  width: 100%; 
 
   @media (max-width: 768px) {
-    flex-direction: column; // Empilha o ícone e o texto no celular
+    flex-direction: column; 
     gap: 0.5rem;
     margin: 1.5rem 0 1rem 0;
   }
 }
 
 .camera-icon {
-  width: 50px; // Tamanho do ícone
+  width: 50px; 
   height: 50px;
-  color: #d90429; // Cor do seu vermelho de destaque
-  flex-shrink: 0; // Impede que o ícone encolha
+  color: #d90429; 
+  flex-shrink: 0; 
 
   @media (max-width: 768px) {
     width: 40px;
@@ -49,12 +51,12 @@ body {
   }
 }
 
-// Estilo para o Título Principal (apenas ajustando a margem)
+// Estilo para o Título Principal
 h1 {
   text-align: center; 
   font-weight: 700; 
   font-size: 2.5rem; 
-  margin: 0; // Removido para o header controlar
+  margin: 0; 
   
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -66,8 +68,8 @@ hr {
   border: 0;
   border-top: 1px solid #444; 
   margin: 2rem 0;
-  width: 100%; // Garantir que ocupe a largura total
-  max-width: 800px; // Limitar o tamanho máximo da linha
+  width: 100%; 
+  max-width: 800px; // Limita o tamanho máximo da linha
 }
 
 /* Estilo da grade de fotos */
@@ -76,8 +78,8 @@ hr {
   flex-wrap: wrap; 
   justify-content: center; 
   padding: 1rem 0;
-  width: 100%; // Ocupa a largura total para centralização
-  max-width: 800px; // Limitar o tamanho máximo da grade
+  width: 100%; 
+  max-width: 800px; // Limita o tamanho máximo da grade
 }
 
 /* Estilo para a mensagem de galeria vazia */

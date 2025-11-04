@@ -1,5 +1,30 @@
 // client/src/pages/HomePage.scss
 
+// Define a animação de "fade in"
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 👇 NOVA Animação de "brilho" para o título 👇
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px rgba(217, 4, 41, 0.4), 
+                 0 0 20px rgba(217, 4, 41, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(217, 4, 41, 0.8), 
+                 0 0 40px rgba(217, 4, 41, 0.4);
+  }
+}
+
+
 .home-container {
   display: flex;
   flex-direction: column;
@@ -7,8 +32,8 @@
   justify-content: center;
   text-align: center;
   padding: 4rem 1rem;
-  // Animação de fade-in para a página
-  animation: fadeIn 0.8s ease-out;
+  // A animação principal do container
+  animation: fadeIn 0.5s ease-out;
 }
 
 .home-content {
@@ -16,26 +41,46 @@
 }
 
 .home-title {
-  font-size: 2.8rem;
+  font-size: 3rem; // Um pouco maior
   font-weight: 700;
   color: #f1f1f1;
   margin-bottom: 1rem;
+  
+  // 👇 APLICA A ANIMAÇÃO DE BRILHO 👇
+  animation: textGlow 4s ease-in-out infinite;
 
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
+  
+  // 👇 APLICA O "STAGGER" (atraso) 👇
+  // Este é o primeiro a aparecer
+  animation-delay: 0.2s;
+  animation-fill-mode: backwards; // Garante que comece invisível
 }
 
 .home-subtitle {
-  font-size: 1.2rem;
+  font-size: 1.25rem; // Um pouco maior
   color: #b0b0b0;
-  margin-bottom: 2.5rem;
+  margin-bottom: 3rem; // Mais espaço
+  
+  // 👇 APLICA O "STAGGER" (atraso) 👇
+  // Este é o segundo a aparecer
+  opacity: 0; // Começa invisível
+  animation: fadeIn 0.8s ease-out 0.5s; // Atraso de 0.5s
+  animation-fill-mode: forwards; // Mantém visível no final
 }
 
 .home-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  
+  // 👇 APLICA O "STAGGER" (atraso) 👇
+  // Este é o terceiro a aparecer
+  opacity: 0; // Começa invisível
+  animation: fadeIn 0.8s ease-out 0.8s; // Atraso de 0.8s
+  animation-fill-mode: forwards; // Mantém visível no final
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -55,11 +100,13 @@
   &.primary {
     background-color: #d90429;
     color: white;
+    border: 2px solid #d90429; // Borda sólida
 
     &:hover {
       background-color: #b3001e;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(217, 4, 41, 0.3);
+      border-color: #b3001e;
+      transform: translateY(-3px); // Efeito de "levantar"
+      box-shadow: 0 4px 15px rgba(217, 4, 41, 0.4);
     }
   }
 
@@ -73,18 +120,7 @@
       background-color: #f1f1f1;
       color: #121212;
       border-color: #f1f1f1;
+      transform: translateY(-3px); // Efeito de "levantar"
     }
-  }
-}
-
-// Re-usa a animação do PhotoCard.scss, mas definida aqui localmente
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
