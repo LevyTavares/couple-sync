@@ -1,29 +1,46 @@
 // client/src/pages/GalleryPage.jsx
 
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. IMPORTAR O useNavigate
 import PhotoCard from '../components/PhotoCard';
 import UploadForm from '../components/UploadForm';
-import { toast } from 'react-toastify'; // Importa o toast
+import { toast } from 'react-toastify'; 
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
-
-// 👇 ADICIONÁMOS ESTA LINHA PARA DEPURAR (DEBUG) 👇
-console.log("A URL DA API LIDA PELO VITE É:", API_URL);
 
 function GalleryPage() {
   const [fotos, setFotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate(); // 2. INICIAR O hook
 
   useEffect(() => {
     async function getFotos() {
       try {
-        // Garante que a API_URL foi lida
-        if (!API_URL) {
-          throw new Error("VITE_API_BASE_URL não foi definida. Verifique o .env.local e reinicie o servidor.");
+        // 3. LER O TOKEN DO LOCALSTORAGE
+        const token = localStorage.getItem('authToken');
+
+        if (!token) {
+          toast.error('Acesso negado. Por favor, faça login.');
+          navigate('/login'); // Redireciona se não houver token
+          return;
         }
         
-        const response = await fetch(`${API_URL}/fotos`);
+        // 4. ADICIONAR O TOKEN AO CABEÇALHO (HEADER)
+        const response = await fetch(`${API_URL}/fotos`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
         
+        if (response.status === 401) {
+          // Se o token for inválido ou expirado
+          toast.error('Sessão inválida. Por favor, faça login novamente.');
+          localStorage.removeItem('authToken'); // Limpa o token inválido
+          navigate('/login');
+          return;
+        }
+
         if (!response.ok) {
           throw new Error(`Erro HTTP: ${response.status}`);
         }
@@ -33,28 +50,36 @@ function GalleryPage() {
         
       } catch (error) {
         console.error('Erro ao buscar fotos:', error);
-        // Mostra o erro para o utilizador
-        toast.error(`Erro ao carregar fotos: ${error.message}`);
-        
+        toast.error(error.message || 'Erro ao carregar fotos.');
       } finally {
-        // Este é o passo crucial que pára o "Carregando..."
         setIsLoading(false);
       }
     }
 
     getFotos();
-  }, []); 
+  }, [navigate]); // Adiciona 'navigate' às dependências do useEffect
 
-  // Funções de CRUD (com a lógica de fetch completa)
+  // Função para ADICIONAR uma foto (do UploadForm)
   const handleNewFoto = (novaFoto) => {
     setFotos(currentFotos => [novaFoto, ...currentFotos]);
   };
 
+  // Função para DELETAR uma foto
   const handleDeleteFoto = async (id) => {
     try {
+      // 5. ADICIONAR O TOKEN AQUI TAMBÉM
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        toast.error('Acesso negado. Faça login.');
+        navigate('/login');
+        return;
+      }
+
       const response = await fetch(`${API_URL}/fotos/${id}`, {
         method: 'DELETE',
-        // TODO: Adicionar o 'Authorization' header aqui quando tivermos login
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (!response.ok) {
@@ -70,13 +95,22 @@ function GalleryPage() {
     }
   };
 
+  // Função para ATUALIZAR uma foto
   const handleUpdateFoto = async (id, novosDados) => {
     try {
+      // 6. ADICIONAR O TOKEN AQUI TAMBÉM
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        toast.error('Acesso negado. Faça login.');
+        navigate('/login');
+        return;
+      }
+
       const response = await fetch(`${API_URL}/fotos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          // TODO: Adicionar o 'Authorization' header aqui
+          'Authorization': `Bearer ${token}` // Adiciona o token aqui
         },
         body: JSON.stringify(novosDados),
       });

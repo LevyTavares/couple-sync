@@ -1,86 +1,99 @@
-import { useState } from 'react'
-import { toast } from 'react-toastify'; // 👈 IMPORTA O TOAST
-import './UploadForm.scss'
+// client/src/components/UploadForm.jsx
 
-// Pega a URL da nossa API (do arquivo .env.local)
-const API_URL = import.meta.env.VITE_API_BASE_URL
+import { useState } from 'react';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom'; // Importa o navigate
+
+// Reusando o estilo
+import './UploadForm.scss';
+
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 function UploadForm({ onUploadSuccess }) {
   
-  // Estados para guardar os dados do formulário
-  const [description, setDescription] = useState('')
-  const [photoDate, setPhotoDate] = useState('')
-  const [file, setFile] = useState(null)
-  
-  // Estado para feedback
-  const [uploading, setUploading] = useState(false)
-  // const [message, setMessage] = useState('') // 👈 NÃO PRECISAMOS MAIS DESTE
+  const [description, setDescription] = useState('');
+  const [photoDate, setPhotoDate] = useState('');
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const navigate = useNavigate(); // Inicia o hook
 
-  // Lida com a seleção do arquivo
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
-      setFile(e.target.files[0])
+      setFile(e.target.files[0]);
     }
-  }
+  };
 
-  // Lida com o envio do formulário
   const handleSubmit = async (e) => {
-    e.preventDefault() // Impede o recarregamento da página
+    e.preventDefault(); 
 
     if (!file || !description || !photoDate) {
-      // 👇 TROCAMOS 'setMessage' POR 'toast.warn'
-      toast.warn('Por favor, preencha todos os campos e escolha um arquivo.')
-      return
+      toast.warn('Por favor, preencha todos os campos e escolha um arquivo.');
+      return;
+    }
+
+    // 👇 1. LER O TOKEN DO LOCALSTORAGE 👇
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      toast.error('Acesso negado. Faça login.');
+      navigate('/login');
+      return;
     }
 
     try {
-      setUploading(true)
-      // setMessage('Enviando dados para o servidor...') // 👈 LINHA REMOVIDA
+      setUploading(true);
+      const formData = new FormData();
+      formData.append('description', description);
+      formData.append('photoDate', photoDate);
+      formData.append('imageFile', file); 
 
-      // 1. Criamos um "pacote" FormData
-      const formData = new FormData()
-      formData.append('description', description)
-      formData.append('photoDate', photoDate)
-      formData.append('imageFile', file) 
-
-      // 2. Enviamos esse "pacote" para nossa API Express
+      // 👇 2. ADICIONAR O TOKEN AO CABEÇALHO (HEADER) 👇
+      //    (Nota: Para FormData, não definimos 'Content-Type',
+      //     mas *podemos* e *devemos* definir 'Authorization')
       const response = await fetch(`${API_URL}/upload`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
         body: formData, 
-      })
+      });
+
+      if (response.status === 401) {
+        toast.error('Sessão inválida. Faça login novamente.');
+        localStorage.removeItem('authToken');
+        navigate('/login');
+        return;
+      }
 
       if (!response.ok) {
         const errData = await response.json();
         throw new Error(errData.error || `Erro HTTP: ${response.status}`);
       }
 
-      const novaFoto = await response.json() 
+      const novaFoto = await response.json(); 
 
-      // 3. SUCESSO!
-      setUploading(false)
-      // 👇 TROCAMOS 'setMessage' POR 'toast.success'
+      setUploading(false);
       toast.success('Foto enviada com sucesso!');
       
-      // Limpa o formulário
-      setDescription('')
-      setPhotoDate('')
-      setFile(null)
-      e.target.reset() // Reseta o input de arquivo
+      setDescription('');
+      setPhotoDate('');
+      setFile(null);
+      e.target.reset(); 
       
-      onUploadSuccess(novaFoto) // Avisa o App.jsx
+      onUploadSuccess(novaFoto); 
 
     } catch (error) {
-      console.error('Erro no upload:', error)
-      // 👇 TROCAMOS 'setMessage' POR 'toast.error'
+      console.error('Erro no upload:', error);
       toast.error(`Erro no upload: ${error.message}`);
-      setUploading(false)
+      setUploading(false);
     }
-  }
+  };
 
+  // ... (O JSX do formulário continua o mesmo) ...
   return (
     <div className="upload-form-container">
       <h3>Adicionar Nova Foto</h3>
       <form onSubmit={handleSubmit} className="upload-form">
+        {/* ... (inputs de description, photoDate, fileUpload) ... */}
         <div className="form-group">
           <label htmlFor="description">Descrição</label>
           <input 
@@ -106,7 +119,7 @@ function UploadForm({ onUploadSuccess }) {
           <input 
             type="file" 
             id="fileUpload"
-            accept="image/png, image/jpeg" // Aceita apenas imagens
+            accept="image/png, image/jpeg" 
             onChange={handleFileChange}
             disabled={uploading}
           />
@@ -115,11 +128,9 @@ function UploadForm({ onUploadSuccess }) {
         <button type="submit" disabled={uploading}>
           {uploading ? 'Enviando...' : 'Enviar Foto'}
         </button>
-        
-        {/* <p>...</p> 👈 NÃO PRECISAMOS MAIS DA MENSAGEM AQUI */}
       </form>
     </div>
-  )
+  );
 }
 
-export default UploadForm
+export default UploadForm;
