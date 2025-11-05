@@ -36,7 +36,7 @@
   padding-left: 2.4rem;
 }
 .field-input-wrap.has-right .field-input {
-  padding-right: 2.6rem;
+  padding-right: 3.2rem;
 }
 
 .field-icon {
@@ -65,6 +65,10 @@
   display: grid;
   place-items: center;
   cursor: pointer;
+}
+.field-icon-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  border-radius: 8px;
 }
 .field-icon-btn:hover {
   color: #ffffff;
