@@ -41,7 +41,8 @@
     width: 34px; // Tamanho ligeiramente ajustado
     height: 34px;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.95; // visível por padrão para evitar depender de hover
+    z-index: 2;
     transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
 
     // 👇 NOVAS REGRAS FLEXBOX PARA CENTRAR O ÍCONE SVG 👇
@@ -86,8 +87,9 @@
     }
   }
 
+  // mantém comportamento de hover suave
   &:hover .action-button {
-    opacity: 0.85;
+    opacity: 1;
   }
 
   // Em dispositivos móveis (sem hover), mantenha os botões visíveis
@@ -104,6 +106,7 @@
     display: block;
     background-color: #2a2b2f;
     transition: transform 0.3s ease;
+    z-index: 1;
   }
 
   &:hover .photo-card-image {
@@ -155,7 +158,8 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    opacity: 0;
+    opacity: 0.95;
+    z-index: 2;
     transition: opacity 0.2s, transform 0.2s, background-color 0.2s;
 
     svg {
@@ -179,12 +183,12 @@
   }
 
   &:hover .favorite-button {
-    opacity: 0.9;
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
     .favorite-button {
-      opacity: 0.95;
+      opacity: 1;
     }
   }
 }

@@ -8,6 +8,8 @@ import { useState } from "react";
 // 👇 NOVOS IMPORTS
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FiMail, FiLock } from "react-icons/fi";
+import InputField from "../components/InputField.jsx";
 
 // Reusando o estilo
 import "../components/UploadForm.scss";
@@ -65,28 +67,30 @@ function LoginPage() {
     <div className="upload-form-container">
       <h3>Login</h3>
       <form onSubmit={handleSubmit} className="upload-form">
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isLoading}
-            required
-          />
-        </div>
+        <InputField
+          id="email"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+          required
+          placeholder="seu@email.com"
+          icon={<FiMail />}
+          autoComplete="email"
+        />
+        <InputField
+          id="password"
+          label="Senha"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+          required
+          placeholder="••••••••"
+          icon={<FiLock />}
+          autoComplete="current-password"
+        />
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Entrando..." : "Entrar"}

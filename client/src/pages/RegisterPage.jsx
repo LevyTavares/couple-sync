@@ -7,6 +7,8 @@ import { useState } from "react";
 // 👇 NOVOS IMPORTS
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify"; // Para dar feedback
+import { FiMail, FiLock } from "react-icons/fi";
+import InputField from "../components/InputField.jsx";
 
 // Reusando o estilo
 import "../components/UploadForm.scss";
@@ -62,28 +64,30 @@ function RegisterPage() {
     <div className="upload-form-container">
       <h3>Registrar Nova Conta</h3>
       <form onSubmit={handleSubmit} className="upload-form">
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={isLoading} // Desabilita enquanto carrega
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            disabled={isLoading} // Desabilita enquanto carrega
-            required
-          />
-        </div>
+        <InputField
+          id="email"
+          label="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          disabled={isLoading}
+          required
+          placeholder="seu@email.com"
+          icon={<FiMail />}
+          autoComplete="email"
+        />
+        <InputField
+          id="password"
+          label="Senha"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          disabled={isLoading}
+          required
+          placeholder="Crie uma senha"
+          icon={<FiLock />}
+          autoComplete="new-password"
+        />
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Registrando..." : "Registrar"}
