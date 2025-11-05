@@ -90,6 +90,13 @@ Base: `${PORT}/api` (ex.: http://localhost:4000/api)
 
 Headers de autenticação: `Authorization: Bearer <token>`.
 
+### Documentação interativa (Swagger)
+
+Com o backend rodando, acesse:
+
+- Local: http://localhost:4000/api/docs
+- Produção: configure a URL conforme seu deploy
+
 ## Convenções de código
 
 - Frontend usa SCSS com variáveis globais em `src/index.css` (tema escuro e utilitários).
