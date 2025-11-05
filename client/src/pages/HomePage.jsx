@@ -5,6 +5,7 @@
  */
 import React from "react";
 import { Link } from "react-router-dom"; // Para criar links
+import { FiHelpCircle } from "react-icons/fi";
 import "./HomePage.scss"; // Vamos criar este ficheiro de estilo
 
 function HomePage() {
@@ -31,6 +32,13 @@ function HomePage() {
           </Link>
           <Link to="/register" className="home-button secondary">
             Registrar-se
+          </Link>
+          <Link
+            to="/tutorial"
+            className="home-button secondary"
+            aria-label="Abrir tutorial"
+          >
+            <FiHelpCircle style={{ marginRight: ".5rem" }} /> Tutorial
           </Link>
         </div>
       </div>

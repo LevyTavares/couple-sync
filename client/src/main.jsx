@@ -16,6 +16,7 @@ import HomePage from "./pages/HomePage.jsx"; // 👈 A NOVA PÁGINA
 import GalleryPage from "./pages/GalleryPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
+import TutorialPage from "./pages/TutorialPage.jsx";
 
 import "./index.css"; // Estilos globais
 
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegisterPage />,
+      },
+      {
+        path: "/tutorial",
+        element: <TutorialPage />,
       },
     ],
   },

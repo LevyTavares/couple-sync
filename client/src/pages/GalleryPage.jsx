@@ -14,6 +14,7 @@ import Modal from "../components/Modal"; // 1. IMPORTA O NOVO MODAL
 import { toast } from "react-toastify";
 import Lightbox from "../components/Lightbox";
 import { useFavorites } from "../lib/useFavorites";
+import { FiPlus } from "react-icons/fi";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -209,8 +210,14 @@ function GalleryPage({ initialShowFavs = false }) {
       </div>
 
       {/* NOVO BOTÃO FLUTUANTE "+" */}
-      <button className="fab-add-button" onClick={() => setIsModalOpen(true)}>
-        +
+      <button
+        className="fab-add-button"
+        onClick={() => setIsModalOpen(true)}
+        aria-label="Adicionar foto"
+        title="Adicionar foto"
+        data-label="Adicionar"
+      >
+        <FiPlus />
       </button>
 
       {/* O MODAL (invisível até 'isModalOpen' ser true) */}

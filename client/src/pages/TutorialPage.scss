@@ -1,0 +1,55 @@
+// client/src/pages/TutorialPage.scss
+
+.tutorial-container {
+  width: 100%;
+  max-width: 1100px;
+  padding: 1rem 16px 2.5rem;
+}
+
+.tutorial-header {
+  text-align: center;
+  margin: 1rem 0 2rem 0;
+}
+.tutorial-header h2 {
+  margin: 0 0 0.4rem 0;
+  font-size: 2rem;
+}
+.tutorial-header p {
+  margin: 0;
+  color: var(--text-1);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.step-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  gap: 14px;
+  padding: 1rem;
+  align-items: flex-start;
+}
+.step-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(217, 4, 41, 0.15);
+  color: var(--primary);
+  flex-shrink: 0;
+  font-size: 22px;
+}
+.step-body h3 {
+  margin: 0 0 0.35rem 0;
+}
+.step-body p {
+  margin: 0;
+  color: var(--text-1);
+}
