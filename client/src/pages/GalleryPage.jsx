@@ -17,7 +17,7 @@ import { useFavorites } from "../lib/useFavorites";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
-function GalleryPage() {
+function GalleryPage({ initialShowFavs = false }) {
   const [fotos, setFotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -25,7 +25,7 @@ function GalleryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [showFavs, setShowFavs] = useState(false);
+  const [showFavs, setShowFavs] = useState(!!initialShowFavs);
 
   const { isFavorite, toggleFavorite } = useFavorites();
 

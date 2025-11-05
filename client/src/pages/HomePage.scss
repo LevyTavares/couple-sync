@@ -14,16 +14,14 @@
 
 // 👇 NOVA Animação de "brilho" para o título 👇
 @keyframes textGlow {
-  0%, 100% {
-    text-shadow: 0 0 10px rgba(217, 4, 41, 0.4), 
-                 0 0 20px rgba(217, 4, 41, 0.2);
+  0%,
+  100% {
+    text-shadow: 0 0 10px rgba(217, 4, 41, 0.4), 0 0 20px rgba(217, 4, 41, 0.2);
   }
   50% {
-    text-shadow: 0 0 20px rgba(217, 4, 41, 0.8), 
-                 0 0 40px rgba(217, 4, 41, 0.4);
+    text-shadow: 0 0 20px rgba(217, 4, 41, 0.8), 0 0 40px rgba(217, 4, 41, 0.4);
   }
 }
-
 
 .home-container {
   display: flex;
@@ -36,6 +34,35 @@
   animation: fadeIn 0.5s ease-out;
 }
 
+.love-banner {
+  margin: 0 0 2rem 0;
+  background: radial-gradient(
+      800px 300px at 10% 0%,
+      rgba(217, 4, 41, 0.15),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #1b1b1d, #141416);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-lg);
+  max-width: 680px;
+  width: 100%;
+  color: #e9e9ea;
+
+  .hearts {
+    color: var(--primary);
+    letter-spacing: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p {
+    margin: 0;
+  }
+  strong {
+    color: #fff;
+  }
+}
+
 .home-content {
   max-width: 600px;
 }
@@ -45,14 +72,14 @@
   font-weight: 700;
   color: #f1f1f1;
   margin-bottom: 1rem;
-  
+
   // 👇 APLICA A ANIMAÇÃO DE BRILHO 👇
   animation: textGlow 4s ease-in-out infinite;
 
   @media (max-width: 768px) {
     font-size: 2.4rem;
   }
-  
+
   // 👇 APLICA O "STAGGER" (atraso) 👇
   // Este é o primeiro a aparecer
   animation-delay: 0.2s;
@@ -63,7 +90,7 @@
   font-size: 1.25rem; // Um pouco maior
   color: #b0b0b0;
   margin-bottom: 3rem; // Mais espaço
-  
+
   // 👇 APLICA O "STAGGER" (atraso) 👇
   // Este é o segundo a aparecer
   opacity: 0; // Começa invisível
@@ -75,7 +102,7 @@
   display: flex;
   justify-content: center;
   gap: 1rem;
-  
+
   // 👇 APLICA O "STAGGER" (atraso) 👇
   // Este é o terceiro a aparecer
   opacity: 0; // Começa invisível
@@ -89,7 +116,7 @@
 
 .home-button {
   text-decoration: none;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 1rem;
   padding: 0.8rem 1.8rem;

@@ -34,6 +34,10 @@ const router = createBrowserRouter([
         element: <GalleryPage />,
       },
       {
+        path: "/favoritas",
+        element: <GalleryPage initialShowFavs={true} />,
+      },
+      {
         path: "/login",
         element: <LoginPage />,
       },

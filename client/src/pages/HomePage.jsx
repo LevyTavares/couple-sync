@@ -8,8 +8,25 @@ import { Link } from "react-router-dom"; // Para criar links
 import "./HomePage.scss"; // Vamos criar este ficheiro de estilo
 
 function HomePage() {
+  // Data especial (pode alterar para a de vocês)
+  const START_DATE = "2023-02-14"; // Dia dos Namorados como exemplo
+  const daysTogether = React.useMemo(() => {
+    const start = new Date(START_DATE);
+    const today = new Date();
+    const diff = today - start;
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+  }, []);
   return (
     <div className="home-container">
+      <div className="love-banner" role="note" aria-label="Dias juntos">
+        <div className="hearts" aria-hidden>
+          ❤︎ ❤︎ ❤︎
+        </div>
+        <p>
+          Estamos juntos há <strong>{daysTogether}</strong> dias. Que venham
+          muitos mais momentos nessa galeria de memórias.
+        </p>
+      </div>
       <div className="home-content">
         <h2 className="home-title">Bem-vindo à Nossa Galeria de Memórias</h2>
         <p className="home-subtitle">

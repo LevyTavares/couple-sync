@@ -89,6 +89,24 @@ function UploadForm({ onUploadSuccess }) {
       setUploading(false);
       toast.success("Foto enviada com sucesso!");
 
+      // Confete no primeiro upload do dia
+      try {
+        const todayKey = new Date().toISOString().slice(0, 10);
+        const last = localStorage.getItem("lastCelebrationDate");
+        if (last !== todayKey) {
+          const { default: confetti } = await import("canvas-confetti");
+          confetti({
+            particleCount: 120,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ["#ffffff", "#d90429", "#ff7a7a"],
+          });
+          localStorage.setItem("lastCelebrationDate", todayKey);
+        }
+      } catch (err) {
+        console.warn("Confetti não pôde ser carregado:", err);
+      }
+
       setDescription("");
       setPhotoDate("");
       setFile(null);

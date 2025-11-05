@@ -46,8 +46,16 @@ function Navbar() {
           <h1>Galeria de Memórias</h1>
         </Link>
 
-        {/* O menu da Navbar (com o botão de Sair) */}
+        {/* Links e ações */}
         <div className="navbar-menu">
+          <div className="navbar-links">
+            <Link to="/galeria" className="nav-link">
+              Galeria
+            </Link>
+            <Link to="/favoritas" className="nav-link">
+              Favoritas
+            </Link>
+          </div>
           {/* Mostra o botão de Sair APENAS SE o token existir */}
           {token && (
             <button className="logout-button" onClick={handleLogout}>
