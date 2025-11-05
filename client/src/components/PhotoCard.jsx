@@ -7,11 +7,12 @@
  */
 import { useState } from "react";
 // 👇 1. IMPORTA ÍCONES CORRETOS DA FAMÍLIA FEATHER
-import { FiEdit, FiTrash2, FiCheck, FiX } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiCheck, FiX, FiHeart } from "react-icons/fi";
+import { FaHeart } from "react-icons/fa";
 import ConfirmDialog from "./ConfirmDialog";
 import "./PhotoCard.scss";
 
-function PhotoCard({ foto, onDelete, onUpdate }) {
+function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editDescription, setEditDescription] = useState(foto.description);
   const [editPhotoDate, setEditPhotoDate] = useState(foto.photo_date);
@@ -39,6 +40,21 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
   return (
     <>
       <div className="photo-card">
+        {/* Botão de favorito (lado esquerdo) */}
+        <button
+          className={`favorite-button ${isFav ? "active" : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleFav(foto.id);
+          }}
+          title={isFav ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+          aria-pressed={isFav}
+          aria-label={
+            isFav ? "Remover dos favoritos" : "Adicionar aos favoritos"
+          }
+        >
+          {isFav ? <FaHeart /> : <FiHeart />}
+        </button>
         {/* --- BOTÕES DE AÇÃO (AGORA COM ÍCONES) --- */}
         {isEditing ? (
           <>
@@ -89,6 +105,8 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
           src={foto.image_url}
           alt={editDescription}
           className="photo-card-image"
+          onClick={() => onOpen?.(foto)}
+          role="button"
         />
 
         <div className="photo-card-info">

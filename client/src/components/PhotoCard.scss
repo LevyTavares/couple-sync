@@ -138,3 +138,53 @@
     }
   }
 }
+
+// Botão de favorito
+.photo-card {
+  .favorite-button {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s, background-color 0.2s;
+
+    svg {
+      pointer-events: none;
+    }
+
+    &:hover {
+      opacity: 1;
+      transform: translateY(-1px);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+
+    &.active {
+      background-color: var(--primary);
+      color: #fff;
+    }
+  }
+
+  &:hover .favorite-button {
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    .favorite-button {
+      opacity: 0.95;
+    }
+  }
+}

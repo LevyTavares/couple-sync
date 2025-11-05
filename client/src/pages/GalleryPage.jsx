@@ -12,6 +12,8 @@ import PhotoCard from "../components/PhotoCard";
 import UploadForm from "../components/UploadForm";
 import Modal from "../components/Modal"; // 1. IMPORTA O NOVO MODAL
 import { toast } from "react-toastify";
+import Lightbox from "../components/Lightbox";
+import { useFavorites } from "../lib/useFavorites";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -21,6 +23,11 @@ function GalleryPage() {
 
   // 2. NOVO ESTADO para controlar o Modal
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [showFavs, setShowFavs] = useState(false);
+
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const navigate = useNavigate();
 
@@ -144,16 +151,48 @@ function GalleryPage() {
     <>
       {/* O UploadForm e a <hr> foram removidos daqui */}
 
+      {/* Toolbar simples */}
+      <div
+        className="gallery-toolbar container"
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+          gap: "8px",
+          padding: "0 16px",
+          width: "100%",
+          maxWidth: "1100px",
+        }}
+      >
+        <button
+          className={`home-button ${showFavs ? "primary" : "secondary"}`}
+          onClick={() => setShowFavs((v) => !v)}
+        >
+          {showFavs ? "Mostrando favoritos" : "Mostrar favoritos"}
+        </button>
+      </div>
+
       <div className="photo-grid">
         {fotos.length > 0 ? (
-          fotos.map((foto) => (
-            <PhotoCard
-              key={foto.id}
-              foto={foto}
-              onDelete={handleDeleteFoto}
-              onUpdate={handleUpdateFoto}
-            />
-          ))
+          (showFavs ? fotos.filter((f) => isFavorite(f.id)) : fotos).map(
+            (foto) => (
+              <PhotoCard
+                key={foto.id}
+                foto={foto}
+                onDelete={handleDeleteFoto}
+                onUpdate={handleUpdateFoto}
+                onOpen={() => {
+                  const base = showFavs
+                    ? fotos.filter((f) => isFavorite(f.id))
+                    : fotos;
+                  const idx = base.findIndex((f) => f.id === foto.id);
+                  setLightboxIndex(idx < 0 ? 0 : idx);
+                  setIsLightboxOpen(true);
+                }}
+                isFav={isFavorite(foto.id)}
+                onToggleFav={toggleFavorite}
+              />
+            )
+          )
         ) : (
           <div className="empty-gallery">
             <h2>Nenhuma memória aqui ainda...</h2>
@@ -183,6 +222,14 @@ function GalleryPage() {
         {/* O UploadForm agora vive aqui dentro! */}
         <UploadForm onUploadSuccess={handleNewFoto} />
       </Modal>
+
+      {isLightboxOpen && (
+        <Lightbox
+          fotos={showFavs ? fotos.filter((f) => isFavorite(f.id)) : fotos}
+          startIndex={lightboxIndex}
+          onClose={() => setIsLightboxOpen(false)}
+        />
+      )}
     </>
   );
 }
