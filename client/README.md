@@ -36,6 +36,7 @@ npm run preview   # pré-visualiza o build
 - Home: landing com CTA para login/registro
 - Login/Register: autenticação; token é guardado em `localStorage`
 - Galeria: lista fotos, permite editar descrição/data, apagar e fazer upload via modal
+- Galeria: lista fotos, permite editar descrição/data, apagar (com diálogo de confirmação) e fazer upload via modal/flutuante
 
 ## Notas de UI/UX
 
@@ -43,6 +44,7 @@ npm run preview   # pré-visualiza o build
 - Grid responsivo na galeria (`App.scss`)
 - Navbar sticky com blur
 - Upload com arrastar-e-soltar + preview
+- Ações de editar/apagar visíveis no hover; em telas móveis, os botões ficam sempre visíveis
 
 ## Problemas comuns
 

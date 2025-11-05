@@ -37,6 +37,8 @@
       background-color: #2a2b2f;
       color: #f1f1f1;
       box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease,
+        background 0.2s ease;
     }
 
     input[type="file"] {
@@ -96,4 +98,11 @@
       cursor: not-allowed;
     }
   }
+}
+
+// Focus states globais para inputs dentro do formulário
+.upload-form-container .form-group input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(217, 4, 41, 0.25);
+  background: #25262a;
 }

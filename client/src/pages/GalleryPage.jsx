@@ -158,6 +158,13 @@ function GalleryPage() {
           <div className="empty-gallery">
             <h2>Nenhuma memória aqui ainda...</h2>
             <p>Que tal adicionar a sua primeira foto?</p>
+            <button
+              className="home-button primary"
+              style={{ marginTop: "1rem" }}
+              onClick={() => setIsModalOpen(true)}
+            >
+              Adicionar foto
+            </button>
           </div>
         )}
       </div>

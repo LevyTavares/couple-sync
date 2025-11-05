@@ -57,6 +57,12 @@
       transform: translateY(-1px);
     }
 
+    &:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
+      opacity: 1;
+    }
+
     &.delete,
     &.cancel {
       right: 8px;
@@ -82,6 +88,13 @@
 
   &:hover .action-button {
     opacity: 0.85;
+  }
+
+  // Em dispositivos móveis (sem hover), mantenha os botões visíveis
+  @media (max-width: 768px) {
+    .action-button {
+      opacity: 0.9;
+    }
   }
 
   .photo-card-image {
