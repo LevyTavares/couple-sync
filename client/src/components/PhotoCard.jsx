@@ -1,5 +1,10 @@
 // client/src/components/PhotoCard.jsx
-
+/**
+ * Card de foto
+ * - Mostra imagem, descrição e data.
+ * - Ações: editar (inline), salvar/cancelar e apagar.
+ * - Botões aparecem ao hover para interface mais limpa.
+ */
 import { useState } from "react";
 // 👇 1. IMPORTA ÍCONES CORRETOS DA FAMÍLIA FEATHER
 import { FiEdit, FiTrash2, FiCheck, FiX } from "react-icons/fi";

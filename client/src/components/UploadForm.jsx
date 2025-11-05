@@ -1,5 +1,10 @@
 // client/src/components/UploadForm.jsx
-
+/**
+ * Formulário de upload
+ * - Envia imagem (multipart) + description + photoDate
+ * - Lê token do localStorage e navega para /login caso ausente
+ * - UX: arrastar-e-soltar e pré-visualização da imagem
+ */
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom"; // Importa o navigate

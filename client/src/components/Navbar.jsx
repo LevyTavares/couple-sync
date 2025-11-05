@@ -1,5 +1,9 @@
 // client/src/components/Navbar.jsx
-
+/**
+ * Barra de navegação
+ * - Exibe marca do app e ação de logout (se autenticado).
+ * - Sticky com efeito glass.
+ */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom"; // Para links e redirecionamento
 import { toast } from "react-toastify";
