@@ -1,18 +1,17 @@
 // client/src/components/PhotoCard.jsx
 
-import { useState } from 'react';
-// 👇 1. IMPORTA OS NOVOS ÍCONES
-import { FeEdit, FeTrash2, FeCheck, FeX } from 'react-icons/fe';
-import './PhotoCard.scss';
+import { useState } from "react";
+// 👇 1. IMPORTA ÍCONES CORRETOS DA FAMÍLIA FEATHER
+import { FiEdit, FiTrash2, FiCheck, FiX } from "react-icons/fi";
+import "./PhotoCard.scss";
 
 function PhotoCard({ foto, onDelete, onUpdate }) {
-  
   const [isEditing, setIsEditing] = useState(false);
   const [editDescription, setEditDescription] = useState(foto.description);
   const [editPhotoDate, setEditPhotoDate] = useState(foto.photo_date);
 
   const handleDeleteClick = () => {
-    if (window.confirm('Tem a certeza que quer apagar esta foto?')) {
+    if (window.confirm("Tem a certeza que quer apagar esta foto?")) {
       onDelete(foto.id);
     }
   };
@@ -20,9 +19,9 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
   const handleSaveClick = () => {
     onUpdate(foto.id, {
       description: editDescription,
-      photoDate: editPhotoDate
+      photoDate: editPhotoDate,
     });
-    setIsEditing(false); 
+    setIsEditing(false);
   };
 
   const handleCancelClick = () => {
@@ -38,45 +37,48 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
         <>
           {/* 👇 2. SUBSTITUI '✓' PELO ÍCONE */}
           <button className="action-button save" onClick={handleSaveClick}>
-            <FeCheck />
+            <FiCheck />
           </button>
           {/* 👇 3. SUBSTITUI '×' PELO ÍCONE */}
           <button className="action-button cancel" onClick={handleCancelClick}>
-            <FeX />
+            <FiX />
           </button>
         </>
       ) : (
         <>
           {/* 👇 4. SUBSTITUI '&times;' PELO ÍCONE */}
           <button className="action-button delete" onClick={handleDeleteClick}>
-            <FeTrash2 />
+            <FiTrash2 />
           </button>
           {/* 👇 5. SUBSTITUI '✎' PELO ÍCONE */}
-          <button className="action-button edit" onClick={() => setIsEditing(true)}>
-            <FeEdit />
+          <button
+            className="action-button edit"
+            onClick={() => setIsEditing(true)}
+          >
+            <FiEdit />
           </button>
         </>
       )}
-      
+
       {/* --- CONTEÚDO DO CARD (Não muda) --- */}
-      <img 
-        src={foto.image_url} 
-        alt={editDescription} 
-        className="photo-card-image" 
+      <img
+        src={foto.image_url}
+        alt={editDescription}
+        className="photo-card-image"
       />
-      
+
       <div className="photo-card-info">
         {isEditing ? (
           <>
-            <input 
+            <input
               type="text"
               value={editDescription}
               onChange={(e) => setEditDescription(e.target.value)}
               className="edit-input"
             />
-            <input 
+            <input
               type="date"
-              value={new Date(editPhotoDate).toISOString().split('T')[0]}
+              value={new Date(editPhotoDate).toISOString().split("T")[0]}
               onChange={(e) => setEditPhotoDate(e.target.value)}
               className="edit-input"
             />

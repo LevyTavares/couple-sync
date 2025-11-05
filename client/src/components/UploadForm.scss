@@ -2,13 +2,14 @@
 
 .upload-form-container {
   // Fundo do formulário um pouco mais claro que o body
-  background-color: #1e1e1e; 
+  background-color: var(--card);
   padding: 1.5rem 2rem;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   margin: 2rem auto;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-lg);
   box-sizing: border-box;
 
   h3 {
@@ -18,7 +19,7 @@
 
   .form-group {
     margin-bottom: 1rem;
-    
+
     label {
       display: block;
       margin-bottom: 0.5rem;
@@ -33,13 +34,42 @@
       padding: 0.75rem;
       border-radius: 5px;
       border: 1px solid #555;
-      background-color: #3f3f3f;
+      background-color: #2a2b2f;
       color: #f1f1f1;
-      box-sizing: border-box; 
+      box-sizing: border-box;
     }
 
     input[type="file"] {
       padding: 0.5rem;
+    }
+  }
+
+  .dropzone {
+    background: #1f2023;
+    border: 1px dashed #4a4b52;
+    color: var(--muted);
+    border-radius: 8px;
+    min-height: 140px;
+    display: grid;
+    place-items: center;
+    padding: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+
+    &:hover {
+      border-color: var(--primary);
+      background: #222328;
+    }
+
+    &.has-file {
+      padding: 0;
+    }
+
+    .preview {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
     }
   }
 
@@ -48,9 +78,9 @@
     padding: 0.75rem;
     border: none;
     border-radius: 5px;
-    
+
     // NOVA COR VERMELHA (em vez de azul)
-    background-color: #d90429; // Um vermelho vibrante
+    background-color: var(--primary); // Um vermelho vibrante
     color: white;
     font-weight: bold;
     font-size: 1rem;
@@ -58,7 +88,7 @@
     transition: background-color 0.2s;
 
     &:hover {
-      background-color: #b3001e; // Vermelho mais escuro no hover
+      background-color: var(--primary-600); // Vermelho mais escuro no hover
     }
 
     &:disabled {

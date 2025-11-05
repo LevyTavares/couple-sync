@@ -1,24 +1,33 @@
 // client/src/components/PhotoCard.scss
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .photo-card {
-  background-color: #1e1e1e; 
-  border-radius: 8px;
-  overflow: hidden; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  width: 300px;
-  margin: 1rem;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
   position: relative;
-  transition: width 0.3s ease;
   animation: fadeIn 0.5s ease-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  }
 
   @media (max-width: 768px) {
-    width: 100%; 
-    margin: 0.75rem 0; 
+    margin: 0;
   }
 
   // 👇 CSS ATUALIZADO PARA OS BOTÕES DE AÇÃO 👇
@@ -29,46 +38,63 @@
     color: white;
     border: none;
     border-radius: 50%;
-    width: 32px; // Tamanho ligeiramente ajustado
-    height: 32px;
+    width: 34px; // Tamanho ligeiramente ajustado
+    height: 34px;
     cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.2s, background-color 0.2s;
-    
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
+
     // 👇 NOVAS REGRAS FLEXBOX PARA CENTRAR O ÍCONE SVG 👇
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     // O tamanho do ícone SVG
-    font-size: 16px; 
+    font-size: 16px;
 
     &:hover {
       opacity: 1;
+      transform: translateY(-1px);
     }
 
-    &.delete, &.cancel {
+    &.delete,
+    &.cancel {
       right: 8px;
-      &:hover { background-color: #d90429; } 
+      &:hover {
+        background-color: var(--primary);
+      }
     }
-    
+
     &.edit {
       right: 48px; // Posição ajustada
-      &:hover { background-color: #555; }
+      &:hover {
+        background-color: #555;
+      }
     }
 
     &.save {
       right: 48px; // Posição ajustada
-      &:hover { background-color: #28a745; }
+      &:hover {
+        background-color: #28a745;
+      }
     }
+  }
+
+  &:hover .action-button {
+    opacity: 0.85;
   }
 
   .photo-card-image {
     width: 100%;
-    height: 200px;
+    aspect-ratio: 4 / 3;
     object-fit: cover;
     display: block;
-    background-color: #444;
+    background-color: #2a2b2f;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover .photo-card-image {
+    transform: scale(1.03);
   }
 
   .photo-card-info {
@@ -85,7 +111,7 @@
       font-size: 0.8rem;
       color: #b0b0b0;
     }
-    
+
     .edit-input {
       width: 100%;
       display: block;
