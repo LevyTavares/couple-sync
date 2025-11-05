@@ -1,20 +1,11 @@
 // client/src/components/PhotoCard.scss
 
-// NOVA Animação "Fade-in"
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-
 .photo-card {
-  // Fundo do card (combinando com o form)
   background-color: #1e1e1e; 
   border-radius: 8px;
   overflow: hidden; 
@@ -23,8 +14,6 @@
   margin: 1rem;
   position: relative;
   transition: width 0.3s ease;
-  
-  // APLICANDO A ANIMAÇÃO
   animation: fadeIn 0.5s ease-out;
 
   @media (max-width: 768px) {
@@ -32,6 +21,7 @@
     margin: 0.75rem 0; 
   }
 
+  // 👇 CSS ATUALIZADO PARA OS BOTÕES DE AÇÃO 👇
   .action-button {
     position: absolute;
     top: 8px;
@@ -39,35 +29,37 @@
     color: white;
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
-    line-height: 30px;
-    text-align: center;
+    width: 32px; // Tamanho ligeiramente ajustado
+    height: 32px;
     cursor: pointer;
     opacity: 0.5;
     transition: opacity 0.2s, background-color 0.2s;
     
+    // 👇 NOVAS REGRAS FLEXBOX PARA CENTRAR O ÍCONE SVG 👇
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    // O tamanho do ícone SVG
+    font-size: 16px; 
+
     &:hover {
       opacity: 1;
     }
 
-    // Cores dos botões atualizadas
     &.delete, &.cancel {
       right: 8px;
-      &:hover { background-color: #d90429; } // Vermelho (igual ao botão principal)
+      &:hover { background-color: #d90429; } 
     }
     
     &.edit {
-      right: 46px; 
-      font-size: 16px; 
-      &:hover { background-color: #555; } // Cinza escuro (neutro)
+      right: 48px; // Posição ajustada
+      &:hover { background-color: #555; }
     }
 
     &.save {
-      right: 46px;
-      font-size: 16px;
-      &:hover { background-color: #28a745; } // Verde para "Salvar" ainda é uma boa ideia
+      right: 48px; // Posição ajustada
+      &:hover { background-color: #28a745; }
     }
   }
 

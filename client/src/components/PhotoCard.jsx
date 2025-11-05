@@ -1,59 +1,64 @@
+// client/src/components/PhotoCard.jsx
+
 import { useState } from 'react';
+// 👇 1. IMPORTA OS NOVOS ÍCONES
+import { FeEdit, FeTrash2, FeCheck, FeX } from 'react-icons/fe';
 import './PhotoCard.scss';
 
-// Recebe a nova prop "onUpdate"
 function PhotoCard({ foto, onDelete, onUpdate }) {
   
-  // CRIA ESTADOS LOCAIS PARA O MODO DE EDIÇÃO
   const [isEditing, setIsEditing] = useState(false);
-  // Guarda os valores dos inputs de edição
   const [editDescription, setEditDescription] = useState(foto.description);
   const [editPhotoDate, setEditPhotoDate] = useState(foto.photo_date);
 
-  // Função para o botão "X" (Delete)
   const handleDeleteClick = () => {
     if (window.confirm('Tem a certeza que quer apagar esta foto?')) {
       onDelete(foto.id);
     }
   };
 
-  // FUNÇÃO PARA LIDAR COM O "SALVAR"
   const handleSaveClick = () => {
-    // Chama a função que veio do App.jsx
     onUpdate(foto.id, {
       description: editDescription,
       photoDate: editPhotoDate
     });
-    setIsEditing(false); // Sai do modo de edição
+    setIsEditing(false); 
   };
 
-  // FUNÇÃO PARA "CANCELAR" A EDIÇÃO
   const handleCancelClick = () => {
     setIsEditing(false);
-    // Reseta os valores para os originais
     setEditDescription(foto.description);
     setEditPhotoDate(foto.photo_date);
   };
 
-  // O JSX AGORA TERÁ DUAS VERSÕES (NORMAL E EDIÇÃO)
   return (
     <div className="photo-card">
-      {/* --- BOTÕES DE AÇÃO --- */}
+      {/* --- BOTÕES DE AÇÃO (AGORA COM ÍCONES) --- */}
       {isEditing ? (
-        // Estamos em Modo de Edição
         <>
-          <button className="action-button save" onClick={handleSaveClick}>✓</button>
-          <button className="action-button cancel" onClick={handleCancelClick}>×</button>
+          {/* 👇 2. SUBSTITUI '✓' PELO ÍCONE */}
+          <button className="action-button save" onClick={handleSaveClick}>
+            <FeCheck />
+          </button>
+          {/* 👇 3. SUBSTITUI '×' PELO ÍCONE */}
+          <button className="action-button cancel" onClick={handleCancelClick}>
+            <FeX />
+          </button>
         </>
       ) : (
-        // Estamos em Modo Normal (Visualização)
         <>
-          <button className="action-button delete" onClick={handleDeleteClick}>&times;</button>
-          <button className="action-button edit" onClick={() => setIsEditing(true)}>✎</button>
+          {/* 👇 4. SUBSTITUI '&times;' PELO ÍCONE */}
+          <button className="action-button delete" onClick={handleDeleteClick}>
+            <FeTrash2 />
+          </button>
+          {/* 👇 5. SUBSTITUI '✎' PELO ÍCONE */}
+          <button className="action-button edit" onClick={() => setIsEditing(true)}>
+            <FeEdit />
+          </button>
         </>
       )}
       
-      {/* --- CONTEÚDO DO CARD --- */}
+      {/* --- CONTEÚDO DO CARD (Não muda) --- */}
       <img 
         src={foto.image_url} 
         alt={editDescription} 
@@ -62,7 +67,6 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
       
       <div className="photo-card-info">
         {isEditing ? (
-          // Modo de Edição: Mostra inputs
           <>
             <input 
               type="text"
@@ -72,14 +76,12 @@ function PhotoCard({ foto, onDelete, onUpdate }) {
             />
             <input 
               type="date"
-              // Formata a data para o input (YYYY-MM-DD)
               value={new Date(editPhotoDate).toISOString().split('T')[0]}
               onChange={(e) => setEditPhotoDate(e.target.value)}
               className="edit-input"
             />
           </>
         ) : (
-          // Modo Normal: Mostra textos
           <>
             <p className="photo-card-description">{foto.description}</p>
             <span className="photo-card-date">
