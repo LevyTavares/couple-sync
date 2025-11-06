@@ -1,6 +1,6 @@
 # Couple Sync — Frontend (Vite + React)
 
-Interface da galeria de memórias com autenticação, upload e visualização responsiva.
+Interface rica em React para uma galeria de memórias privada. Foco em UX acessível, tema escuro consistente e interações suaves.
 
 ## Requisitos
 
@@ -33,20 +33,44 @@ npm run preview   # pré-visualiza o build
 
 ## Páginas/Fluxos
 
-- Home: landing com CTA para login/registro
-- Login/Register: autenticação; token é guardado em `localStorage`
-- Galeria: lista fotos, permite editar descrição/data, apagar e fazer upload via modal
-- Galeria: lista fotos, permite editar descrição/data, apagar (com diálogo de confirmação) e fazer upload via modal/flutuante
+- Home: landing + botão para Tutorial.
+- Tutorial: guia passo a passo (ícones) sobre upload, edição, favoritos e tela cheia.
+- Login / Register: autenticação (token salvo em `localStorage`).
+- Galeria: grid responsivo, editar descrição/data inline, excluir com confirmação, favoritar, filtro de favoritos e Lightbox.
 
 ## Notas de UI/UX
 
-- Tema escuro com variáveis em `src/index.css`
-- Grid responsivo na galeria (`App.scss`)
-- Navbar sticky com blur
-- Upload com arrastar-e-soltar + preview
-- Ações de editar/apagar visíveis no hover; em telas móveis, os botões ficam sempre visíveis
+- Tema dark com variáveis centralizadas (`src/index.css`) para cores, radius, sombras.
+- Ações (editar, excluir, favorito) sempre visíveis para evitar dependência de hover em mobile.
+- FAB estilizado com gradiente, animação de pulso e tooltip.
+- Lightbox acessível: ESC fecha, setas navegam, botão para download.
+- Confetti discreto apenas no primeiro upload do dia (celebração sem exagero).
+- Inputs customizados com ícones e toggle de visibilidade de senha.
+
+## Principais componentes
+
+- `PhotoCard.jsx`: card da foto com ações, estado de edição e favorito.
+- `UploadForm.jsx`: multipart + drag & drop + preview.
+- `Lightbox.jsx`: visualização em tela cheia, navegação e download.
+- `ConfirmDialog.jsx`: diálogo genérico de confirmação.
+- `InputField.jsx`: campo de texto com ícone e toggle de senha.
+- `useFavorites.js`: hook com persistência em `localStorage`.
 
 ## Problemas comuns
 
-- Se a galeria não carrega e aparece 401/403, faça login novamente (token expirado)
-- Se o upload falhar, verifique `VITE_API_BASE_URL` e o backend
+- 401 na galeria → token expirado ou ausente: faça login.
+- Erro no upload → verifique URL da API ou credenciais do backend (Cloudinary / JWT).
+- Imagem não aparece → checar `image_url` retornado e permissões do Cloudinary.
+
+## Stack complementar
+
+- React Router para rotas.
+- React Toastify para feedback rápido.
+- React Icons para ícones.
+- SASS (SCSS) para composição e reutilização de estilos.
+- canvas-confetti (import dinâmico) para efeito leve de celebração.
+
+## Segurança no frontend
+
+- Token guardado em `localStorage` (simples para demo; em produção usar httpOnly cookies/refresh).
+- Sanitização indireta: descrição é enviada como plain text; exibir sempre como texto (sem dangerouslySetInnerHTML).

@@ -1,6 +1,46 @@
 # Couple Sync
 
-Um monorepo simples com frontend em React (Vite) e backend em Node.js/Express para uma galeria privada de memórias com upload de imagens via Cloudinary e autenticação JWT.
+Projeto full‑stack de uma galeria privada de memórias. O foco é oferecer uma experiência bonita e fluida para guardar fotos com descrição e data, com autenticação e upload otimizado.
+
+Este repositório é um monorepo com:
+
+- Frontend em React (Vite) — navegação com React Router, UI em tema escuro (SCSS), toasts e pequenos efeitos que deixam a experiência especial.
+- Backend em Node.js/Express — API REST com autenticação JWT, persistência em PostgreSQL (Neon) e imagens no Cloudinary.
+
+## Sobre o projeto (para apresentação)
+
+Couple Sync é uma galeria de memórias feita para casais guardarem momentos importantes. A aplicação permite:
+
+- criar conta e fazer login (JWT);
+- enviar fotos (drag‑and‑drop), com descrição e data;
+- editar e excluir memórias com confirmação segura;
+- favoritar e filtrar favoritas (persistência local);
+- ver as fotos em tela cheia (Lightbox) e baixar a imagem;
+- consultar um tutorial rápido dentro do app.
+
+### Por que essas tecnologias?
+
+- React + Vite: produtividade alta, HMR rápido e ecossistema moderno.
+- Express.js: API leve, direta e fácil de estender.
+- Neon (PostgreSQL serverless): Postgres compatível com drivers padrão, conexão SSL e excelente para projetos acadêmicos/demonstração.
+- Cloudinary: armazenamento e CDN de imagens pronto para produção; não guardamos binários no banco.
+
+## Arquitetura
+
+```
+Cliente (React)
+	↕  HTTP/JSON (Bearer Token)
+API (Express)
+	↔ PostgreSQL (Neon)  → metadados das fotos (description, photo_date, image_url)
+	↔ Cloudinary         → armazenamento das imagens
+```
+
+Fluxo de Upload (alto nível):
+
+1. Usuário escolhe a imagem e preenche descrição/data.
+2. Front envia multipart/form‑data com o token.
+3. API valida JWT, faz upload para Cloudinary e grava metadados no Postgres.
+4. API retorna a foto criada com `image_url` pronto para uso/CDN.
 
 ## Estrutura
 
@@ -97,11 +137,22 @@ Com o backend rodando, acesse:
 - Local: http://localhost:4000/api/docs
 - Produção: configure a URL conforme seu deploy
 
+O arquivo de referência OpenAPI está em `api/openapi.yml`.
+
 ## Convenções de código
 
 - Frontend usa SCSS com variáveis globais em `src/index.css` (tema escuro e utilitários).
 - Componentes com comentários no topo explicando função.
 - Toasts para feedback do usuário.
+
+## Principais funcionalidades do frontend
+
+- Upload com arrastar‑e‑soltar e preview
+- Modal com rolagem interna para telas pequenas
+- Lightbox com navegação via teclado e download
+- Favoritos (persistência em `localStorage`) e filtro rápido
+- Botão flutuante (FAB) com tooltip e animação
+- Página de Tutorial com passos e ícones
 
 ## Problemas comuns
 
