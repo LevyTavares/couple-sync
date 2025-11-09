@@ -7,12 +7,38 @@
  */
 import { useState } from "react";
 // 👇 1. IMPORTA ÍCONES CORRETOS DA FAMÍLIA FEATHER
-import { FiEdit, FiTrash2, FiCheck, FiX, FiHeart } from "react-icons/fi";
+import {
+  FiEdit,
+  FiTrash2,
+  FiCheck,
+  FiX,
+  FiHeart,
+  FiDownload,
+} from "react-icons/fi";
 import { FaHeart } from "react-icons/fa";
 import ConfirmDialog from "./ConfirmDialog";
 import "./PhotoCard.scss";
 
 function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
+  // Helpers de data para evitar erros de "Invalid Date" e aceitar formatos variados
+  const toInputDate = (value) => {
+    if (!value) return "";
+    const d = new Date(value);
+    if (!Number.isNaN(d.getTime())) return d.toISOString().split("T")[0];
+    // tenta dd/mm/yyyy ou dd-mm-yyyy
+    const m = String(value).match(/^(\d{2})[/-](\d{2})[/-](\d{4})$/);
+    if (m) return `${m[3]}-${m[2]}-${m[1]}`;
+    return "";
+  };
+
+  const formatDisplayDate = (value) => {
+    if (!value) return "";
+    const d = new Date(value);
+    if (!Number.isNaN(d.getTime())) return d.toLocaleDateString();
+    const m = String(value).match(/^(\d{2})[/-](\d{2})[/-](\d{4})$/);
+    if (m) return new Date(`${m[3]}-${m[2]}-${m[1]}`).toLocaleDateString();
+    return String(value);
+  };
   const [isEditing, setIsEditing] = useState(false);
   const [editDescription, setEditDescription] = useState(foto.description);
   const [editPhotoDate, setEditPhotoDate] = useState(foto.photo_date);
@@ -35,6 +61,46 @@ function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
     setIsEditing(false);
     setEditDescription(foto.description);
     setEditPhotoDate(foto.photo_date);
+  };
+
+  const handleDownload = async (e) => {
+    e?.stopPropagation?.();
+    const url = foto?.image_url;
+    if (!url) return;
+
+    try {
+      // 1) Cloudinary: use fl_attachment para forçar download (sem CORS/Blob)
+      if (url.includes("/upload/")) {
+        const attachmentUrl = url.replace("/upload/", "/upload/fl_attachment/");
+        const a = document.createElement("a");
+        a.href = attachmentUrl;
+        // tenta sugerir um nome, caso o provedor honre
+        const fileName = url.split("/").pop()?.split("?")[0] || "foto.jpg";
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        return;
+      }
+
+      // 2) Fallback genérico: baixa como Blob e cria URL local
+      const resp = await fetch(url, { mode: "cors" });
+      const blob = await resp.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const fileName = url.split("/").pop()?.split("?")[0] || "foto.jpg";
+      a.href = blobUrl;
+      a.download = fileName;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      // Em caso de bloqueio CORS, como último recurso abre em nova aba
+      // e registramos o erro no console para diagnóstico
+      console.debug("Falha no download da imagem:", error);
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
   };
 
   return (
@@ -79,6 +145,15 @@ function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
           </>
         ) : (
           <>
+            {/* Botão de download */}
+            <button
+              className="action-button download"
+              onClick={handleDownload}
+              title="Baixar imagem"
+              aria-label="Baixar imagem"
+            >
+              <FiDownload />
+            </button>
             {/* 👇 4. SUBSTITUI '&times;' PELO ÍCONE */}
             <button
               className="action-button delete"
@@ -120,7 +195,7 @@ function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
               />
               <input
                 type="date"
-                value={new Date(editPhotoDate).toISOString().split("T")[0]}
+                value={toInputDate(editPhotoDate)}
                 onChange={(e) => setEditPhotoDate(e.target.value)}
                 className="edit-input"
               />
@@ -129,7 +204,7 @@ function PhotoCard({ foto, onDelete, onUpdate, onOpen, isFav, onToggleFav }) {
             <>
               <p className="photo-card-description">{foto.description}</p>
               <span className="photo-card-date">
-                {new Date(foto.photo_date).toLocaleDateString()}
+                {formatDisplayDate(foto.photo_date)}
               </span>
             </>
           )}
