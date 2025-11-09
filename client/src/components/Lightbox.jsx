@@ -77,17 +77,6 @@ function Lightbox({ fotos, startIndex, onClose }) {
             </div>
             <div className="lb-date">
               {new Date(current.photo_date).toLocaleDateString()}
-              {expanded && (
-                <button
-                  type="button"
-                  className="lb-toggle"
-                  onClick={() => setExpanded(false)}
-                  aria-expanded={expanded}
-                  style={{ marginLeft: 8 }}
-                >
-                  Mostrar menos
-                </button>
-              )}
             </div>
             {current.description?.length > 140 && (
               <button
