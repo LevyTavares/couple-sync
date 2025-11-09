@@ -23,6 +23,14 @@
   overflow: hidden; // garante scroll interno controlado
 }
 
+// Quando a legenda está expandida, permita a rolagem do container e reduza a imagem
+.lightbox-content.is-expanded {
+  overflow: auto;
+}
+.lightbox-content.is-expanded .lightbox-image-wrap img {
+  max-height: 55vh; // mais espaço para a legenda no mobile
+}
+
 .lightbox-image-wrap {
   display: grid;
   place-items: center;
@@ -81,9 +89,9 @@
   padding-bottom: 0.25rem;
 }
 .lb-meta.expanded {
-  max-height: 38vh;
-  overflow-y: auto;
-  padding-right: 4px;
+  max-height: none; // deixa o container pai gerenciar o espaço
+  overflow: visible;
+  padding-right: 0;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   padding-bottom: 0.25rem;
@@ -106,6 +114,7 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 .lb-meta.expanded .lb-toggle {
+  /* botão ainda visível ao final */
   position: sticky;
   bottom: 0;
   align-self: flex-end;
