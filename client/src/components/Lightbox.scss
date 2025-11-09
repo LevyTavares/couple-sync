@@ -41,9 +41,8 @@
 .lb-meta {
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  max-height: 20vh;
-  overflow-y: auto;
+  gap: 0.45rem;
+  max-height: 22vh;
   scrollbar-width: thin;
 }
 
@@ -61,12 +60,45 @@
   opacity: 0.85;
 }
 
+// Estados de colapso/expansão
+.lb-meta.collapsed {
+  overflow: hidden;
+}
+.lb-meta.collapsed .lb-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 5; // ~5 linhas no mobile
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.lb-meta.expanded {
+  max-height: 35vh;
+  overflow-y: auto;
+}
+
+.lb-toggle {
+  align-self: flex-end;
+  background: transparent;
+  color: var(--primary-300, #ff6b6b);
+  border: 0;
+  padding: 0.25rem 0;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.lb-toggle:hover {
+  text-decoration: underline;
+}
+
 @media (min-width: 760px) {
   .lb-meta {
-    max-height: 18vh;
+    max-height: 20vh;
   }
   .lb-description {
     font-size: 1rem;
+  }
+  .lb-meta.collapsed .lb-description {
+    -webkit-line-clamp: 6; // mais linhas no desktop
+    line-clamp: 6;
   }
 }
 
