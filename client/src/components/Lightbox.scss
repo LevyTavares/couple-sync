@@ -33,39 +33,41 @@
 }
 
 .lightbox-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.75rem 1rem;
+  padding: 0.9rem 1rem 1rem;
   background: #18181a;
   border-top: 1px solid #2a2b2f;
 }
 
 .lb-meta {
   display: flex;
-  gap: 0.75rem;
-  align-items: baseline;
-}
-.lb-meta strong {
-  color: #f1f1f1;
-}
-.lb-meta span {
-  color: var(--text-1);
-  font-size: 0.9rem;
+  flex-direction: column;
+  gap: 0.55rem;
+  max-height: 20vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
-.lb-download {
-  display: inline-flex;
-  gap: 0.5rem;
-  align-items: center;
-  background: var(--primary);
-  color: #fff;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
+.lb-description {
+  color: #f1f1f1;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
-.lb-download:hover {
-  background: var(--primary-600);
+
+.lb-date {
+  color: var(--text-1);
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+@media (min-width: 760px) {
+  .lb-meta {
+    max-height: 18vh;
+  }
+  .lb-description {
+    font-size: 1rem;
+  }
 }
 
 .lb-btn {

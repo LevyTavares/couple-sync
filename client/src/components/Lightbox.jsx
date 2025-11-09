@@ -1,6 +1,6 @@
 // client/src/components/Lightbox.jsx
 import React, { useCallback, useEffect, useMemo } from "react";
-import { FiX, FiChevronLeft, FiChevronRight, FiDownload } from "react-icons/fi";
+import { FiX, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import "./Lightbox.scss";
 
 function Lightbox({ fotos, startIndex, onClose }) {
@@ -64,19 +64,13 @@ function Lightbox({ fotos, startIndex, onClose }) {
 
         <div className="lightbox-footer">
           <div className="lb-meta">
-            <strong>{current.description}</strong>
-            <span>{new Date(current.photo_date).toLocaleDateString()}</span>
+            <div className="lb-description" role="note">
+              {current.description}
+            </div>
+            <div className="lb-date">
+              {new Date(current.photo_date).toLocaleDateString()}
+            </div>
           </div>
-          <a
-            className="lb-download"
-            href={current.image_url}
-            download
-            target="_blank"
-            rel="noreferrer"
-            title="Baixar imagem"
-          >
-            <FiDownload /> Baixar
-          </a>
         </div>
       </div>
     </div>
