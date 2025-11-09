@@ -15,6 +15,10 @@ function Lightbox({ fotos, startIndex, onClose }) {
     [total]
   );
   const next = useCallback(() => setIndex((i) => (i + 1) % total), [total]);
+  // sempre que a imagem muda, volta o caption para colapsado
+  useEffect(() => {
+    setExpanded(false);
+  }, [index]);
 
   useEffect(() => {
     const onKey = (e) => {
