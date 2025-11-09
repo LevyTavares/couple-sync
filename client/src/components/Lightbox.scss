@@ -20,16 +20,19 @@
   box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
+  overflow: hidden; // garante scroll interno controlado
 }
 
 .lightbox-image-wrap {
   display: grid;
   place-items: center;
   background: #000;
+  flex: 1 1 auto;
+  min-height: 0; // permite o footer expandir e a imagem ajustar
 }
 .lightbox-image-wrap img {
   max-width: 100%;
-  max-height: 70vh; // reduz ligeiramente para dar mais espaço ao footer no mobile
+  max-height: 68vh; // um pouco menor para liberar espaço do footer
   object-fit: contain;
 }
 
@@ -81,6 +84,9 @@
   max-height: 38vh;
   overflow-y: auto;
   padding-right: 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding-bottom: 0.25rem;
 }
 
 .lb-toggle {
@@ -98,6 +104,12 @@
   cursor: pointer;
   letter-spacing: 0.5px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+.lb-meta.expanded .lb-toggle {
+  position: sticky;
+  bottom: 0;
+  align-self: flex-end;
+  margin-top: 0.25rem;
 }
 .lb-toggle:hover {
   filter: brightness(1.1);
